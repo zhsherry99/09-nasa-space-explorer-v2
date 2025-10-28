@@ -24,6 +24,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: #061f4a;
   padding-top: 20px;
   padding-bottom: 20px;
   margin-bottom: 20px;
@@ -39,6 +40,13 @@ h1 {
 .logo {
   width: 140px;
   margin-right: 15px;
+}
+
+/* Larger header logo (inserted alongside the worm logo) */
+.logo-large {
+  width: 100px; /* adjust as needed */
+  margin-right: 40px;
+  /* vertical-align: middle; */
 }
 
 /* Date‐picker & button row */
@@ -60,7 +68,7 @@ button {
   padding: 10px 15px;
   border: 1px solid rgba(0,0,0,0.08);
   border-radius: 2px;
-  background: #ffffff;
+  background: #e1f3f8;
   font-size: 16px;
   line-height: 1.4;
   width: 100%;
@@ -68,13 +76,13 @@ button {
 
 /* Button specific */
 button {
-  background-color: #0b5f7e;
+  background-color: #046b99;
   color: #fff;
   cursor: pointer;
   border: 1px solid rgba(0,0,0,0.12);
 }
 button:hover {
-  background-color: #0e7fa0;
+  background-color: #00a6d2;
 }
 
 /* Stack horizontally on wider screens */
@@ -169,7 +177,7 @@ button:hover {
 
 /* Card styles used by the JS renderer */
 .card {
-  background: #fff;
+  background: #dce4ef;
   border-radius: 4px;
   /* box-shadow: 0 2px 6px rgba(0,0,0,0.08); */
   overflow: hidden;
