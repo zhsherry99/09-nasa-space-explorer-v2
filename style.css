@@ -154,6 +154,29 @@ button:hover {
   margin-bottom: 20px;
 }
 
+/* Did You Know box (random fun fact shown on load) */
+.did-you-know {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.06);
+  color: rgba(255,255,255,0.95);
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin: 0 20px 18px 20px;
+  max-width: 100%;
+  display: block;
+}
+.did-you-know strong {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+.did-you-know p {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.4;
+  opacity: 0.95;
+}
+
 /* Grid layout for the JS-rendered .grid container (3x3 on wide screens) */
 .grid {
   display: grid;

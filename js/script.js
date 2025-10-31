@@ -6,7 +6,32 @@ const apodData = 'https://cdn.jsdelivr.net/gh/GCA-Classroom/apod/data.json';
 
 const gallery = document.getElementById('gallery');
 const getImageBtn = document.getElementById('getImageBtn');
+const startDateInput = document.getElementById('startDate');
+const endDateInput = document.getElementById('endDate');
 let cachedData = null;
+
+// "Did You Know?" facts: pick one at random on each page load
+const didYouKnowText = document.getElementById('didYouKnowText');
+const spaceFacts = [
+	'A day on Venus is longer than a year on Venus — it rotates very slowly.',
+	'There are more stars in the observable universe than grains of sand on all Earth\'s beaches.',
+	'Neutron stars can spin hundreds of times per second and are so dense a teaspoon would weigh billions of tons.',
+	'A spoonful of a white dwarf would weigh about a million tons on Earth.',
+	'Saturn could float in water because it\'s mostly made of gas and is less dense than water.',
+	'Jupiter\'s Great Red Spot is a storm larger than Earth that has been raging for centuries.',
+	'Space is not completely empty — it contains tiny amounts of gas, dust, and cosmic rays.',
+	'The footprints left on the Moon will likely remain for millions of years because there is no wind to erase them.'
+];
+
+function showRandomFact() {
+	try {
+		if (!didYouKnowText) return;
+		const fact = spaceFacts[Math.floor(Math.random() * spaceFacts.length)];
+		didYouKnowText.textContent = fact;
+	} catch (e) {
+		// no-op on errors — facts are optional
+	}
+}
 
 function el(tag, className, text) {
 	const e = document.createElement(tag);
@@ -102,9 +127,54 @@ async function fetchAndDisplay() {
 
 if (getImageBtn) {
 	getImageBtn.addEventListener('click', () => {
-		fetchAndDisplay();
+		// When user clicks fetch, apply the selected date range
+		displayRange();
 	});
 }
+
+// Filter items by inclusive date range. Dates use YYYY-MM-DD so string compare works.
+function filterByRange(items, start, end) {
+	if (!items) return [];
+	if (!start && !end) return items;
+	return items.filter(item => {
+		const d = item.date || '';
+		if (!d) return false;
+		if (start && d < start) return false;
+		if (end && d > end) return false;
+		return true;
+	});
+}
+
+// Validate date inputs (YYYY-MM-DD). Returns {ok, message}
+function validateRange(start, end) {
+	if (start && end && start > end) return { ok: false, message: 'Start date must be before or equal to end date.' };
+	return { ok: true };
+}
+
+// Main: load data (cached), apply date filter, and render
+async function displayRange() {
+	const start = startDateInput && startDateInput.value ? startDateInput.value : '';
+	const end = endDateInput && endDateInput.value ? endDateInput.value : '';
+
+	const valid = validateRange(start, end);
+	if (!valid.ok) {
+		showError(valid.message);
+		return;
+	}
+
+	try {
+		showLoading();
+		if (!cachedData) await fetchAndDisplay();
+		const filtered = filterByRange(cachedData, start, end);
+		renderGallery(filtered);
+	} catch (err) {
+		showError(err.message || err);
+	}
+}
+
+// Auto-update when the user changes dates
+if (startDateInput) startDateInput.addEventListener('change', () => displayRange());
+if (endDateInput) endDateInput.addEventListener('change', () => displayRange());
 
 // Modal implementation
 function openModal(item) {
@@ -183,3 +253,6 @@ function openModal(item) {
 	});
 	document.addEventListener('keydown', onKeyDown);
 }
+
+	// Show a random "Did You Know?" fact on initial load
+	showRandomFact();
