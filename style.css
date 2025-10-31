@@ -209,6 +209,20 @@ button:hover {
   display: block;
 }
 
+/* Smooth scale effect on hover for gallery/card */
+.card,
+.gallery-item {
+  transition: transform 260ms cubic-bezier(.2,.9,.2,1), box-shadow 260ms ease;
+  transform-origin: center center;
+  will-change: transform;
+}
+
+.card:hover,
+.gallery-item:hover {
+  transform: scale(1.06);
+  /* box-shadow: 0 12px 30px rgba(0,0,0,0.18); */
+}
+
 .card-caption {
   display: none;
 }
